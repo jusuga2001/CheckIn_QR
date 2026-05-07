@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Evento Corporativo</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>Evento Corporativo 2026</h1>
+    <p class="subtitle">Sistema de Gestión de Asistencia</p>
+
+    <div class="grid">
+
+      <!-- Registro -->
+      <div class="card">
+        <h3>📱 Registro de Asistente</h3>
+        <p>Inscríbete al evento y recibe tu código QR único para el acceso</p>
+        <button class="btn dark" id="btnRegistro">Registrarse ahora</button>
+      </div>
+
+      <!-- Admin -->
+      <div class="card">
+        <h3>🟣 Panel de Administración</h3>
+        <p>Accede al dashboard con métricas y estadísticas en tiempo real</p>
+        <button class="btn gray">Ir al Dashboard</button>
+      </div>
+
+      <!-- Scanner -->
+      <div class="card green">
+        <h3>🟢 Scanner QR</h3>
+        <p>Escanea códigos QR para registrar la entrada de asistentes</p>
+        <button class="btn green" id="btnScanner">Abrir Scanner</button>
+      </div>
+
+      <!-- Lista -->
+      <div class="card orange">
+        <h3>🟠 Lista de Asistentes</h3>
+        <p>Consulta y gestiona todos los asistentes registrados</p>
+        <button class="btn orange">Ver Asistentes</button>
+      </div>
+
+    </div>
+
+    <div class="info-card">
+      <h2>Información del Evento</h2>
+
+      <p><strong>Fecha:</strong> 26 de Marzo, 2026</p>
+      <p><strong>Hora:</strong> 9:00 AM - 6:00 PM</p>
+      <p><strong>Lugar:</strong> Centro de Convenciones Principal</p>
+
+      <span class="nota">
+        Presenta tu código QR en la entrada para registrar tu asistencia
+      </span>
+    </div>
+
+  </div>
+
+  <!-- SECCIÓN REGISTRO -->
+  <div id="registroSection" class="hidden">
+
+    <div class="back" id="volverInicio">← Volver al inicio</div>
+
+    <h1>Registro de Asistente</h1>
+    <p class="subtitle">Completa el formulario para recibir tu código QR de acceso</p>
+
+    <div class="form-card">
+
+      <h3>👤 Información Personal</h3>
+      <span class="subtext">Todos los campos son obligatorios</span>
+
+      <div class="row">
+        <input type="text" placeholder="Nombre">
+        <input type="text" placeholder="Apellidos">
+      </div>
+
+      <input type="email" placeholder="Correo Electrónico">
+
+      <div class="row">
+        <select>
+          <option>DNI</option>
+          <option>Cédula</option>
+        </select>
+        <input type="text" placeholder="Número de Documento">
+      </div>
+
+      <input type="date">
+
+      <input type="text" placeholder="Teléfono">
+
+      <select>
+        <option>General</option>
+        <option>Plus</option>
+        <option>VIP</option>
+      </select>
+
+      <button class="btn dark">Completar Registro</button>
+
+    </div>
+
+  </div>
+
+  <!-- SECCIÓN SCANNER -->
+  <div id="scannerSection" class="hidden">
+
+    <div class="back" id="volverInicioScanner">← Volver al inicio</div>
+
+    <h1>Scanner de Códigos QR</h1>
+    <p class="subtitle">Escanea o ingresa manualmente el código del asistente</p>
+
+    <div class="scanner-grid">
+
+      <!-- Cámara -->
+      <div class="card">
+        <h3>📷 Escáner de Cámara</h3>
+        <p>Activa la cámara para escanear códigos QR</p>
+
+        <div id="reader" class="camera-box"></div>
+
+        <button class="btn green" id="btnActivarCamara">Activar Cámara</button>
+      </div>
+
+      <!-- Resultado -->
+      <div class="card dashed">
+        <div id="resultadoScan">Esperando escaneo...</div>
+
+        <div class="prueba">
+          <h4>Prueba Rápida</h4>
+          <button class="test-btn">ATT-001</button>
+          <button class="test-btn">ATT-002</button>
+          <button class="test-btn">ATT-003</button>
+          <button class="test-btn">ATT-004</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Entrada manual -->
+    <div class="card manual">
+      <h3>🔍 Entrada Manual</h3>
+      <input type="text" id="inputManual" placeholder="Ej: ATT-001">
+      <button class="btn dark" id="btnVerificar">Verificar</button>
+    </div>
+
+    <div class="stats">
+
+  <div class="stat-card">
+    <p>Total Registrados Hoy</p>
+    <h2 id="totalHoy">95</h2>
+  </div>
+
+  <div class="stat-card">
+    <p>Última Hora</p>
+    <h2 id="ultimaHora">12</h2>
+  </div>
+
+  <div class="stat-card">
+    <p>Pendientes</p>
+    <h2 id="pendientes">3</h2>
+  </div>
+
+</div>
+
+  </div>
+
+  <script src="https://unpkg.com/html5-qrcode"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
