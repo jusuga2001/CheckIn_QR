@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evento Corporativo 2026</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <main id="homeSection" class="section container">
+    <h1>Evento Corporativo 2026</h1>
+    <p class="subtitle">Sistema de gestion de asistencia y control de accesos</p>
+
+    <div class="grid">
+      <article class="card">
+        <span class="eyebrow">Registro</span>
+        <h3>Registro de asistentes</h3>
+        <p>Completa el formulario y genera un codigo QR unico para el acceso al evento.</p>
+        <button class="btn dark" id="btnRegistro" type="button">Registrarse ahora</button>
+      </article>
+
+      <article class="card">
+        <span class="eyebrow">Administracion</span>
+        <h3>Panel de administracion</h3>
+        <p>Consulta metricas clave, actividad reciente y el avance general del check-in.</p>
+        <button class="btn gray" id="btnDashboard" type="button">Ir al dashboard</button>
+      </article>
+
+      <article class="card green">
+        <span class="eyebrow">Control</span>
+        <h3>Scanner QR</h3>
+        <p>Escanea codigos QR o valida codigos manuales para registrar ingresos.</p>
+        <button class="btn green" id="btnScanner" type="button">Abrir scanner</button>
+      </article>
+
+      <article class="card orange">
+        <span class="eyebrow">Seguimiento</span>
+        <h3>Lista de asistentes</h3>
+        <p>Revisa los registros, filtra estados y busca asistentes rapidamente.</p>
+        <button class="btn orange" id="btnLista" type="button">Ver asistentes</button>
+      </article>
+    </div>
+
+    <section class="info-card">
+      <h2>Informacion del evento</h2>
+      <p><strong>Fecha:</strong> 26 de marzo de 2026</p>
+      <p><strong>Hora:</strong> 9:00 AM - 6:00 PM</p>
+      <p><strong>Lugar:</strong> Centro de Convenciones Principal</p>
+      <span class="nota">Presenta tu codigo QR en la entrada para registrar tu asistencia.</span>
+    </section>
+  </main>
+
+  <section id="registroSection" class="section hidden container">
+    <button class="back" data-target="homeSection" type="button">Volver al inicio</button>
+
+    <h1>Registro de asistente</h1>
+    <p class="subtitle">Completa el formulario para generar tu acceso y dejar tus datos listos.</p>
+
+    <div class="form-card">
+      <div class="section-heading">
+        <div>
+          <h3>Informacion personal</h3>
+          <span class="subtext">Todos los campos son obligatorios</span>
+        </div>
+        <span class="pill">Acceso con QR</span>
+      </div>
+
+      <form id="registroForm">
+        <div class="row">
+          <label>
+            <span>Nombre</span>
+            <input id="nombre" name="nombre" type="text" placeholder="Nombre" required>
+          </label>
+          <label>
+            <span>Apellidos</span>
+            <input id="apellidos" name="apellidos" type="text" placeholder="Apellidos" required>
+          </label>
+        </div>
+
+        <label>
+          <span>Correo electronico</span>
+          <input id="correo" name="correo" type="email" placeholder="correo@empresa.com" required>
+        </label>
+
+        <div class="row">
+          <label>
+            <span>Tipo de documento</span>
+            <select id="tipoDocumento" name="tipoDocumento" required>
+              <option value="DNI">DNI</option>
+              <option value="Cedula">Cedula</option>
+              <option value="Pasaporte">Pasaporte</option>
+            </select>
+          </label>
+          <label>
+            <span>Numero de documento</span>
+            <input id="numeroDocumento" name="numeroDocumento" type="text" placeholder="Numero de documento" required>
+          </label>
+        </div>
+
+        <div class="row">
+          <label>
+            <span>Fecha de nacimiento</span>
+            <input id="fechaNacimiento" name="fechaNacimiento" type="date" required>
+          </label>
+          <label>
+            <span>Telefono</span>
+            <input id="telefono" name="telefono" type="tel" placeholder="Telefono" required>
+          </label>
+        </div>
+
+        <label>
+          <span>Tipo de entrada</span>
+          <select id="ticketType" name="ticketType" required>
+            <option value="General">General</option>
+            <option value="Plus">Plus</option>
+            <option value="VIP">VIP</option>
+          </select>
+        </label>
+
+        <button class="btn dark" id="btnCompletarRegistro" type="submit">Completar registro</button>
+      </form>
+
+      <div id="registroFeedback" class="feedback hidden" aria-live="polite"></div>
+    </div>
+
+    <section id="qrCard" class="info-card hidden">
+      <h2>Registro completado</h2>
+      <p>Tu asistente quedo guardado y su codigo esta listo para el ingreso.</p>
+      <div id="qrCode" class="qr-box"></div>
+      <p id="qrCodigoTexto" class="code-label"></p>
+      <span class="nota">Puedes usar este QR el dia del evento o compartir el codigo manualmente.</span>
+    </section>
+  </section>
+
+  <section id="dashboardSection" class="section hidden container">
+    <button class="back" data-target="homeSection" type="button">Volver al inicio</button>
+
+    <h1>Panel de administracion</h1>
+    <p class="subtitle">Vista general del evento con metricas, distribucion de entradas y actividad reciente.</p>
+
+    <div class="stats stats-dashboard">
+      <article class="stat-card">
+        <p>Total registrados</p>
+        <h2 id="dashboardTotal">0</h2>
+      </article>
+      <article class="stat-card">
+        <p>Check-ins confirmados</p>
+        <h2 id="dashboardCheckins">0</h2>
+      </article>
+      <article class="stat-card">
+        <p>Pendientes por ingresar</p>
+        <h2 id="dashboardPendientes">0</h2>
+      </article>
+      <article class="stat-card">
+        <p>Ingresos ultima hora</p>
+        <h2 id="dashboardUltimaHora">0</h2>
+      </article>
+    </div>
+
+    <div class="dashboard-grid">
+      <article class="card">
+        <div class="card-header">
+          <div>
+            <span class="eyebrow">Capacidad</span>
+            <h3>Avance de ocupacion</h3>
+          </div>
+          <span id="dashboardProgressLabel" class="pill">0%</span>
+        </div>
+        <p>Seguimiento general frente a la meta de aforo del evento.</p>
+        <div class="progress-track">
+          <div id="dashboardProgressBar" class="progress-bar"></div>
+        </div>
+        <div class="summary-grid">
+          <div>
+            <span class="summary-label">Capacidad prevista</span>
+            <strong id="dashboardCapacidad">120 asistentes</strong>
+          </div>
+          <div>
+            <span class="summary-label">Asistencia actual</span>
+            <strong id="dashboardActual">0 asistentes</strong>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-header">
+          <div>
+            <span class="eyebrow">Entradas</span>
+            <h3>Distribucion por tipo</h3>
+          </div>
+          <span class="pill">En tiempo real</span>
+        </div>
+        <div id="ticketBreakdown" class="breakdown-list"></div>
+      </article>
+
+      <article class="card full-width">
+        <div class="card-header">
+          <div>
+            <span class="eyebrow">Actividad</span>
+            <h3>Movimientos recientes</h3>
+          </div>
+          <span class="pill">Ultimos eventos</span>
+        </div>
+        <div id="activityList" class="activity-list"></div>
+      </article>
+    </div>
+  </section>
+
+  <section id="scannerSection" class="section hidden container">
+    <button class="back" data-target="homeSection" type="button">Volver al inicio</button>
+
+    <h1>Scanner de codigos QR</h1>
+    <p class="subtitle">Escanea o ingresa manualmente el codigo del asistente para validar el acceso.</p>
+
+    <div class="scanner-grid">
+      <article class="card">
+        <div class="card-header">
+          <div>
+            <span class="eyebrow">Camara</span>
+            <h3>Escaner en vivo</h3>
+          </div>
+          <span class="pill">Entrada principal</span>
+        </div>
+        <p>Activa la camara del dispositivo para leer codigos QR del evento.</p>
+        <div id="reader" class="camera-box"></div>
+        <button class="btn green" id="btnActivarCamara" type="button">Activar camara</button>
+      </article>
+
+      <article class="card dashed">
+        <span class="eyebrow">Resultado</span>
+        <div id="resultadoScan" class="scan-result neutral">Esperando escaneo...</div>
+
+        <div class="prueba">
+          <h4>Prueba rapida</h4>
+          <div id="testButtonsContainer" class="test-grid"></div>
+        </div>
+      </article>
+    </div>
+
+    <div class="card manual-card">
+      <div class="manual-copy">
+        <span class="eyebrow">Entrada manual</span>
+        <h3>Validar codigo</h3>
+        <p>Usa esta opcion si el asistente no puede mostrar el QR.</p>
+      </div>
+      <div class="manual-actions">
+        <input type="text" id="inputManual" placeholder="Ej: ATT-001">
+        <button class="btn dark" id="btnVerificar" type="button">Verificar</button>
+      </div>
+    </div>
+
+    <div class="stats">
+      <article class="stat-card">
+        <p>Total registrados</p>
+        <h2 id="totalHoy">0</h2>
+      </article>
+      <article class="stat-card">
+        <p>Check-ins realizados</p>
+        <h2 id="checkinsHoy">0</h2>
+      </article>
+      <article class="stat-card">
+        <p>Ultima hora</p>
+        <h2 id="ultimaHora">0</h2>
+      </article>
+      <article class="stat-card">
+        <p>Pendientes</p>
+        <h2 id="pendientes">0</h2>
+      </article>
+    </div>
+
+    <section class="card">
+      <div class="card-header">
+        <div>
+          <span class="eyebrow">Control</span>
+          <h3>Ultimos ingresos</h3>
+        </div>
+        <span class="pill">Accesos</span>
+      </div>
+      <div id="scannerActivityList" class="activity-list compact"></div>
+    </section>
+  </section>
+
+  <section id="listaSection" class="section hidden container">
+    <button class="back" data-target="homeSection" type="button">Volver al inicio</button>
+
+    <h1>Lista de asistentes</h1>
+    <p class="subtitle">Consulta el estado de cada asistente y localiza rapidamente cualquier registro.</p>
+
+    <div class="card toolbar-card">
+      <div class="toolbar">
+        <label class="toolbar-field">
+          <span>Buscar</span>
+          <input id="searchInput" type="search" placeholder="Nombre, correo o codigo">
+        </label>
+        <label class="toolbar-field">
+          <span>Estado</span>
+          <select id="filterStatus">
+            <option value="todos">Todos</option>
+            <option value="confirmado">Check-in confirmado</option>
+            <option value="pendiente">Pendiente</option>
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th>Codigo</th>
+            <th>Asistente</th>
+            <th>Entrada</th>
+            <th>Correo</th>
+            <th>Estado</th>
+            <th>Ultimo movimiento</th>
+          </tr>
+        </thead>
+        <tbody id="attendeesTableBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://unpkg.com/html5-qrcode"></script>
+  <script type="module" src="app.js"></script>
+</body>
+
+</html>
