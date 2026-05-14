@@ -1,174 +1,343 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8">
-  <title>Evento Corporativo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evento Corporativo 2026</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
-  <div class="container">
+  <!-- LOGIN -->
+  <section id="loginSection" class="section">
+    <div class="login-card">
+      <h1>Check-In QR</h1>
+      <p class="subtitle">Sistema de gestión de eventos corporativos</p>
+
+      <input type="text" id="loginUsuario" placeholder="Usuario">
+      <input type="password" id="loginPassword" placeholder="Contraseña">
+
+      <select id="rolSelect">
+        <option value="usuario">Usuario</option>
+        <option value="admin">Administrador</option>
+      </select>
+
+      <button class="btn dark" id="btnIngresar" type="button">Iniciar sesión</button>
+      <button class="btn gray" id="btnIrRegistroUsuario" type="button">Crear cuenta</button>
+
+      <p class="nota">Admin: usuario <strong>admin</strong> / contraseña <strong>1234</strong></p>
+    </div>
+  </section>
+
+  <!-- CREAR CUENTA -->
+  <section id="crearCuentaSection" class="section hidden">
+    <div class="login-card">
+      <h1>Crear cuenta</h1>
+
+      <input type="text" id="registroUsuario" placeholder="Usuario">
+      <input type="password" id="registroPassword" placeholder="Contraseña">
+
+      <button class="btn dark" id="btnCrearCuenta" type="button">Registrarme</button>
+      <button class="btn gray" id="volverLogin" type="button">Volver</button>
+    </div>
+  </section>
+
+  <!-- ADMIN -->
+  <main id="homeSection" class="section container hidden">
+    <button class="back" id="cerrarSesionAdmin" type="button">Cerrar sesión</button>
 
     <h1>Evento Corporativo 2026</h1>
-    <p class="subtitle">Sistema de Gestión de Asistencia</p>
+    <p class="subtitle">Panel administrativo de gestión de eventos y control de accesos</p>
 
     <div class="grid">
 
-      <!-- Registro -->
-      <div class="card">
-        <h3>📱 Registro de Asistente</h3>
-        <p>Inscríbete al evento y recibe tu código QR único para el acceso</p>
-        <button class="btn dark" id="btnRegistro">Registrarse ahora</button>
-      </div>
+      <article class="card">
+        <span class="eyebrow">Eventos</span>
+        <h3>Crear evento</h3>
+        <p>Crea eventos para que los usuarios puedan verlos y registrarse.</p>
 
-      <!-- Admin -->
-      <div class="card">
-        <h3>🟣 Panel de Administración</h3>
-        <p>Accede al dashboard con métricas y estadísticas en tiempo real</p>
-        <button class="btn gray">Ir al Dashboard</button>
-      </div>
+        <input type="text" id="eventoNombre" placeholder="Nombre del evento">
+        <input type="date" id="eventoFecha">
 
-      <!-- Scanner -->
-      <div class="card green">
-        <h3>🟢 Scanner QR</h3>
-        <p>Escanea códigos QR para registrar la entrada de asistentes</p>
-        <button class="btn green" id="btnScanner">Abrir Scanner</button>
-      </div>
+        <button class="btn dark" id="btnCrearEvento" type="button">Crear evento</button>
+      </article>
 
-      <!-- Lista -->
-      <div class="card orange">
-        <h3>🟠 Lista de Asistentes</h3>
-        <p>Consulta y gestiona todos los asistentes registrados</p>
-        <button class="btn orange">Ver Asistentes</button>
-      </div>
+      <article class="card">
+        <span class="eyebrow">Administración</span>
+        <h3>Panel de administración</h3>
+        <p>Consulta métricas clave, actividad reciente y avance general del check-in.</p>
+        <button class="btn gray" id="btnDashboard" type="button">Ir al dashboard</button>
+      </article>
+
+      <article class="card green">
+        <span class="eyebrow">Control</span>
+        <h3>Scanner QR</h3>
+        <p>Escanea códigos QR o valida códigos manuales para registrar ingresos.</p>
+        <button class="btn green" id="btnScanner" type="button">Abrir scanner</button>
+      </article>
+
+      <article class="card orange">
+        <span class="eyebrow">Seguimiento</span>
+        <h3>Lista de asistentes</h3>
+        <p>Revisa los registros, filtra estados y busca asistentes rápidamente.</p>
+        <button class="btn orange" id="btnLista" type="button">Ver asistentes</button>
+      </article>
 
     </div>
 
-    <div class="info-card">
-      <h2>Información del Evento</h2>
-
-      <p><strong>Fecha:</strong> 26 de Marzo, 2026</p>
+    <section class="info-card">
+      <h2>Información del evento</h2>
+      <p><strong>Fecha:</strong> 26 de marzo de 2026</p>
       <p><strong>Hora:</strong> 9:00 AM - 6:00 PM</p>
       <p><strong>Lugar:</strong> Centro de Convenciones Principal</p>
+      <span class="nota">Los usuarios solo podrán registrarse en eventos creados por el administrador.</span>
+    </section>
+  </main>
 
-      <span class="nota">
-        Presenta tu código QR en la entrada para registrar tu asistencia
-      </span>
-    </div>
+  <!-- USUARIO -->
+  <section id="usuarioSection" class="section container hidden">
+    <button class="back" id="cerrarSesionUsuario" type="button">Cerrar sesión</button>
 
-  </div>
+    <h1>Eventos disponibles</h1>
+    <p class="subtitle">Selecciona un evento para registrarte y generar tu código QR.</p>
 
-  <!-- SECCIÓN REGISTRO -->
-  <div id="registroSection" class="hidden">
+    <div id="eventosContainer" class="grid"></div>
+  </section>
 
-    <div class="back" id="volverInicio">← Volver al inicio</div>
+  <!-- REGISTRO USUARIO -->
+  <section id="registroSection" class="section hidden container">
+    <button class="back" id="volverEventosUsuario" type="button">Volver a eventos</button>
 
-    <h1>Registro de Asistente</h1>
-    <p class="subtitle">Completa el formulario para recibir tu código QR de acceso</p>
+    <h1>Registro de asistente</h1>
+    <p class="subtitle">Completa el formulario para generar tu acceso QR.</p>
 
     <div class="form-card">
-
-      <h3>👤 Información Personal</h3>
-      <span class="subtext">Todos los campos son obligatorios</span>
-
-      <div class="row">
-        <input type="text" placeholder="Nombre">
-        <input type="text" placeholder="Apellidos">
+      <div class="section-heading">
+        <div>
+          <h3>Información personal</h3>
+          <span class="subtext">Todos los campos son obligatorios</span>
+        </div>
+        <span class="pill">Acceso con QR</span>
       </div>
 
-      <input type="email" placeholder="Correo Electrónico">
+      <form id="registroForm">
+        <div class="row">
+          <label>
+            <span>Nombre</span>
+            <input id="nombre" type="text" placeholder="Nombre" required>
+          </label>
+          <label>
+            <span>Apellidos</span>
+            <input id="apellidos" type="text" placeholder="Apellidos" required>
+          </label>
+        </div>
 
-      <div class="row">
-        <select>
-          <option>DNI</option>
-          <option>Cédula</option>
-        </select>
-        <input type="text" placeholder="Número de Documento">
-      </div>
+        <label>
+          <span>Correo electrónico</span>
+          <input id="correo" type="email" placeholder="correo@empresa.com" required>
+        </label>
 
-      <input type="date">
+        <div class="row">
+          <label>
+            <span>Tipo de documento</span>
+            <select id="tipoDocumento" required>
+              <option value="DNI">DNI</option>
+              <option value="Cedula">Cédula</option>
+              <option value="Pasaporte">Pasaporte</option>
+            </select>
+          </label>
 
-      <input type="text" placeholder="Teléfono">
+          <label>
+            <span>Número de documento</span>
+            <input id="numeroDocumento" type="text" placeholder="Número de documento" required>
+          </label>
+        </div>
 
-      <select>
-        <option>General</option>
-        <option>Plus</option>
-        <option>VIP</option>
-      </select>
+        <div class="row">
+          <label>
+            <span>Fecha de nacimiento</span>
+            <input id="fechaNacimiento" type="date" required>
+          </label>
 
-      <button class="btn dark">Completar Registro</button>
+          <label>
+            <span>Teléfono</span>
+            <input id="telefono" type="tel" placeholder="Teléfono" required>
+          </label>
+        </div>
 
+        <label>
+          <span>Tipo de entrada</span>
+          <select id="ticketType" required>
+            <option value="General">General</option>
+            <option value="Plus">Plus</option>
+            <option value="VIP">VIP</option>
+          </select>
+        </label>
+
+        <button class="btn dark" id="btnCompletarRegistro" type="submit">Completar registro</button>
+      </form>
+
+      <div id="registroFeedback" class="feedback hidden"></div>
     </div>
 
-  </div>
+    <section id="qrCard" class="info-card hidden">
+      <h2>Registro completado</h2>
+      <p>Tu código QR fue generado correctamente.</p>
 
-  <!-- SECCIÓN SCANNER -->
-  <div id="scannerSection" class="hidden">
+      <canvas id="qrCanvas"></canvas>
 
-    <div class="back" id="volverInicioScanner">← Volver al inicio</div>
+      <p id="qrCodigoTexto" class="code-label"></p>
 
-    <h1>Scanner de Códigos QR</h1>
-    <p class="subtitle">Escanea o ingresa manualmente el código del asistente</p>
+      <button class="btn green" id="btnDescargarQR" type="button">Descargar QR</button>
+
+      <span class="nota">Presenta este QR en la entrada del evento.</span>
+    </section>
+  </section>
+
+  <!-- DASHBOARD ADMIN -->
+  <section id="dashboardSection" class="section hidden container">
+    <button class="back" data-target="homeSection" type="button">Volver al inicio</button>
+
+    <h1>Panel de administración</h1>
+    <p class="subtitle">Vista general del evento con métricas y actividad reciente.</p>
+
+    <div class="stats stats-dashboard">
+      <article class="stat-card">
+        <p>Total registrados</p>
+        <h2 id="dashboardTotal">0</h2>
+      </article>
+      <article class="stat-card">
+        <p>Check-ins confirmados</p>
+        <h2 id="dashboardCheckins">0</h2>
+      </article>
+      <article class="stat-card">
+        <p>Pendientes por ingresar</p>
+        <h2 id="dashboardPendientes">0</h2>
+      </article>
+      <article class="stat-card">
+        <p>Ingresos última hora</p>
+        <h2 id="dashboardUltimaHora">0</h2>
+      </article>
+    </div>
+
+    <div class="dashboard-grid">
+      <article class="card">
+        <span class="eyebrow">Capacidad</span>
+        <h3>Avance de ocupación</h3>
+        <p>Seguimiento general frente a la meta de aforo del evento.</p>
+        <div class="progress-track">
+          <div id="dashboardProgressBar" class="progress-bar"></div>
+        </div>
+        <span id="dashboardProgressLabel" class="pill">0%</span>
+      </article>
+
+      <article class="card">
+        <span class="eyebrow">Entradas</span>
+        <h3>Distribución por tipo</h3>
+        <div id="ticketBreakdown" class="breakdown-list"></div>
+      </article>
+
+      <article class="card full-width">
+        <span class="eyebrow">Actividad</span>
+        <h3>Movimientos recientes</h3>
+        <div id="activityList" class="activity-list"></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- SCANNER ADMIN -->
+  <section id="scannerSection" class="section hidden container">
+    <button class="back" data-target="homeSection" type="button">Volver al inicio</button>
+
+    <h1>Scanner de códigos QR</h1>
+    <p class="subtitle">Escanea o ingresa manualmente el código del asistente.</p>
 
     <div class="scanner-grid">
-
-      <!-- Cámara -->
-      <div class="card">
-        <h3>📷 Escáner de Cámara</h3>
-        <p>Activa la cámara para escanear códigos QR</p>
-
+      <article class="card">
+        <span class="eyebrow">Cámara</span>
+        <h3>Escáner en vivo</h3>
+        <p>Activa la cámara del dispositivo para leer códigos QR.</p>
         <div id="reader" class="camera-box"></div>
+        <button class="btn green" id="btnActivarCamara" type="button">Activar cámara</button>
+      </article>
 
-        <button class="btn green" id="btnActivarCamara">Activar Cámara</button>
-      </div>
-
-      <!-- Resultado -->
-      <div class="card dashed">
-        <div id="resultadoScan">Esperando escaneo...</div>
+      <article class="card dashed">
+        <span class="eyebrow">Resultado</span>
+        <div id="resultadoScan" class="scan-result neutral">Esperando escaneo...</div>
 
         <div class="prueba">
-          <h4>Prueba Rápida</h4>
-          <button class="test-btn">ATT-001</button>
-          <button class="test-btn">ATT-002</button>
-          <button class="test-btn">ATT-003</button>
-          <button class="test-btn">ATT-004</button>
+          <h4>Prueba rápida</h4>
+          <div id="testButtonsContainer" class="test-grid"></div>
         </div>
-      </div>
-
+      </article>
     </div>
 
-    <!-- Entrada manual -->
-    <div class="card manual">
-      <h3>🔍 Entrada Manual</h3>
-      <input type="text" id="inputManual" placeholder="Ej: ATT-001">
-      <button class="btn dark" id="btnVerificar">Verificar</button>
+    <div class="card manual-card">
+      <div class="manual-copy">
+        <span class="eyebrow">Entrada manual</span>
+        <h3>Validar código</h3>
+        <p>Usa esta opción si el asistente no puede mostrar el QR.</p>
+      </div>
+
+      <div class="manual-actions">
+        <input type="text" id="inputManual" placeholder="Ej: ATT-001">
+        <button class="btn dark" id="btnVerificar" type="button">Verificar</button>
+      </div>
     </div>
 
     <div class="stats">
+      <article class="stat-card">
+        <p>Total registrados</p>
+        <h2 id="totalHoy">0</h2>
+      </article>
+      <article class="stat-card">
+        <p>Check-ins realizados</p>
+        <h2 id="checkinsHoy">0</h2>
+      </article>
+      <article class="stat-card">
+        <p>Última hora</p>
+        <h2 id="ultimaHora">0</h2>
+      </article>
+      <article class="stat-card">
+        <p>Pendientes</p>
+        <h2 id="pendientes">0</h2>
+      </article>
+    </div>
 
-  <div class="stat-card">
-    <p>Total Registrados Hoy</p>
-    <h2 id="totalHoy">95</h2>
-  </div>
+    <section class="card">
+      <span class="eyebrow">Control</span>
+      <h3>Últimos ingresos</h3>
+      <div id="scannerActivityList" class="activity-list compact"></div>
+    </section>
+  </section>
 
-  <div class="stat-card">
-    <p>Última Hora</p>
-    <h2 id="ultimaHora">12</h2>
-  </div>
+  <!-- LISTA ADMIN -->
+  <section id="listaSection" class="section hidden container">
+    <button class="back" data-target="homeSection" type="button">Volver al inicio</button>
 
-  <div class="stat-card">
-    <p>Pendientes</p>
-    <h2 id="pendientes">3</h2>
-  </div>
+    <h1>Lista de asistentes</h1>
+    <p class="subtitle">Consulta el estado de cada asistente registrado.</p>
 
-</div>
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Asistente</th>
+            <th>Entrada</th>
+            <th>Correo</th>
+            <th>Estado</th>
+            <th>Evento</th>
+          </tr>
+        </thead>
+        <tbody id="attendeesTableBody"></tbody>
+      </table>
+    </div>
+  </section>
 
-  </div>
-
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
   <script src="https://unpkg.com/html5-qrcode"></script>
   <script src="app.js"></script>
 </body>
-
 </html>
